@@ -1,0 +1,41 @@
+# Node modules
+backend/node_modules/
+frontend/node_modules/
+
+# Build outputs
+backend/dist/
+frontend/dist/
+
+# Angular specific output
+frontend/.angular/
+frontend/.vite/
+
+# Logs
+*.log
+logs/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# Environment files
+backend/.env
+frontend/.env
+.env
+.env.*.local
+
+# Temp folders
+tmp/
+out/
+temp/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# TypeScript incremental files
+*.tsbuildinfo
+
+# Editors
+.vscode/
+.idea/
