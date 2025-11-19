@@ -211,3 +211,212 @@ Understanding Angular’s debugging tools:
 - Always apply OnPush
 
 ---
+
+NgModules were the **old Angular architecture system**, used from Angular 2 → Angular 14.
+
+They were containers that grouped together:
+
+- components
+- directives
+- pipes
+- services
+- imports
+- routing
+- bootstrap logic
+
+Example of a classic NgModule:
+
+```ts
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule, RouterModule.forRoot(routes)],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+This file was required in every Angular project for years.
+
+---
+
+# Why NgModules became obsolete
+
+Starting Angular 15, Angular moved to **standalone components**, which no longer need NgModules at all.
+
+Instead of:
+
+- AppModule
+- SharedModule
+- AuthModule
+- DashboardModule
+
+You use only components with `standalone: true`.
+
+Example:
+
+```ts
+@Component({
+  standalone: true,
+  selector: "app-login",
+  templateUrl: "./login.html",
+})
+export default class LoginPage {}
+```
+
+No NgModule needed.
+
+---
+
+# What standalone changes
+
+## Before (old Angular):
+
+- you had to declare components
+- you had to import modules everywhere
+- you had to register everything inside NgModules
+
+```
+declarations: [...]
+imports: [...]
+providers: [...]
+```
+
+## Now (Angular 15 → 20):
+
+- components import what they need directly
+- routing uses `provideRouter()`
+- the app boots with `bootstrapApplication(App)`
+- you don’t create a module file ever again
+
+Your entire app is now:
+
+```
+components + routes + services
+```
+
+No modules.
+
+---
+
+# Why standalone is better
+
+### 1. Fewer files
+
+You no longer create `*.module.ts` files.
+
+### 2. Simpler routing
+
+You lazy-load components directly:
+
+```ts
+{
+  path: 'login',
+  loadComponent: () => import('./pages/login/login').then(m => m.default)
+}
+```
+
+### 3. Smaller mental overhead
+
+Everything becomes more React-like and modern.
+
+### 4. Faster compilation
+
+No module graph to resolve.
+
+---
+
+# Why we renamed the files (`app.component.ts` → `app.ts`)
+
+Because NgModules are gone, the file name `app.component.ts` is legacy.
+
+The recommended style:
+
+- `app.ts`
+- `login.ts`
+- `dashboard.ts`
+
+fits the standalone architecture:
+
+- fewer words
+- modern style
+- imports clean
+- no legacy suffixes
+- matches Angular team examples
+
+---
+
+# Summary
+
+**NgModules = old architecture (deprecated)**
+**Standalone components = new (and default) architecture in Angular 20**
+
+You do NOT need NgModules anymore.
+
+---
+
+# Want a visual comparison?
+
+NgModules are Angular’s **old** system for grouping code into logical units.
+
+They look like this:
+
+```ts
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule, RouterModule],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+They were required in Angular versions **2 → 14**.
+
+Their purpose:
+
+- declare which components belong together
+- import other modules
+- configure providers
+- define bootstrap component
+
+They acted like a **container** for components, directives, pipes, and services.
+
+---
+
+# Why they are no longer needed
+
+Starting from Angular 15+, Angular introduced **standalone components**, which **remove the need for NgModules**.
+
+Standalone components:
+
+```ts
+@Component({
+  standalone: true,
+  imports: [...],
+  template: `...`
+})
+export default class LoginPage {}
+```
+
+Benefits:
+
+- no NgModule files
+- simpler folder structure
+- easier lazy loading
+- clearer dependencies
+- faster builds
+- closer to React/Vue mental model
+
+Angular 20 projects use standalone components **by default**.
+
+This is why the new standard naming drops the `.component.ts` suffix — NgModules are gone.
+
+---
+
+# Summary
+
+NgModules = a legacy system used to group and bootstrap code.
+
+Standalone Components = modern replacement (Angular 15–20), simpler, cleaner, recommended.
+
+---
