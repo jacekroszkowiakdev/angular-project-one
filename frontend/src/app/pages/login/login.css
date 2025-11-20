@@ -1,0 +1,22 @@
+.login-wrap {
+  max-width: 300px;
+  margin: 4rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+input {
+  width: 100%;
+  padding: 0.5rem;
+}
+
+button {
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.error {
+  color: red;
+  font-size: 0.9rem;
+}
