@@ -40,21 +40,28 @@ export default class LoginPage {
     this.error.set('');
     if (this.form.invalid) return;
 
-    const { email, password } = this.form.value;
+    // read safe values and trim
+    const { email, password } = this.form.getRawValue();
+    const payload = {
+      email: (email ?? '').trim(),
+      password: (password ?? '').trim(),
+    };
+    if (!payload.email || !payload.password) {
+      this.error.set('Email and password are required.');
+      return;
+    }
 
-    this.http
-      .post<{ token: string }>('http://localhost:3000/auth/login', {
-        email,
-        password,
-      })
-      .subscribe({
-        next: (res) => {
-          localStorage.setItem('token', res.token);
-          this.router.navigate(['/dashboard']);
-        },
-        error: () => {
-          this.error.set('Invalid email or password.');
-        },
-      });
+    // use the proxy path (no host) to avoid CORS in dev
+    this.http.post<{ token: string }>('/auth/login', payload).subscribe({
+      next: (res) => {
+        console.log('payload', payload);
+        localStorage.setItem('token', res.token);
+        this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        console.error('Login error', err);
+        this.error.set('Invalid email or password.');
+      },
+    });
   }
 }

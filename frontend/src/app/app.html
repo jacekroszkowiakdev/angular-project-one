@@ -1,9 +1,15 @@
-<!-- Root layout -->
 <header class="app-header">
   <h1>angular-project-one</h1>
+
+  <div class="header-actions">
+    @if (isLoggedIn()) {
+    <button type="button" (click)="logout()">Logout</button>
+    } @else {
+    <button type="button" (click)="goToLogin()">Login</button>
+    }
+  </div>
 </header>
 
 <main class="app-main">
-  <!-- Root shell containing router outlet -->
   <router-outlet></router-outlet>
 </main>
